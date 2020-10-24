@@ -1,6 +1,9 @@
 import argparse
 import logging
 
+from listener import Listener
+from model_handler import ModelHandler
+
 log_format = "%(asctime)s [%(module)s] : %(message)s"
 logging.basicConfig(level="DEBUG", format=log_format)
 logger = logging.getLogger()
@@ -8,6 +11,7 @@ logger = logging.getLogger()
 
 def start_service():
 	logger.info("Starting Voice2Command service")
+
 
 def main(args):
 	start_service()
