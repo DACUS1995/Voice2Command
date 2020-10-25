@@ -1,8 +1,11 @@
 import argparse
 import logging
+import threading
+import time
 
-from listener import Listener
-from model_handler import ModelHandler
+from components.listener import Listener
+from components.model_handler import ModelHandler
+from components.processor import Processor
 
 log_format = "%(asctime)s [%(module)s] : %(message)s"
 logging.basicConfig(level="DEBUG", format=log_format)
@@ -12,9 +15,29 @@ logger = logging.getLogger()
 def start_service():
 	logger.info("Starting Voice2Command service")
 
+	listener = Listener("true_sample.wav")
+	model_handler = ModelHandler()
+	processor = Processor(listener, model_handler)
+
+	run_event = threading.Event()
+	run_event.set()
+	thread = processor.run(run_event)
+
+	try:
+		while 1:
+			time.sleep(1)
+			print("Waiting")
+	except KeyboardInterrupt:
+		print("attempting to close threads.")
+		run_event.clear()
+		thread.join()
+		print("threads successfully closed")
+
+
 
 def main(args):
 	start_service()
+	# threading.Event().wait()
 
 
 if __name__ == "__main__":
