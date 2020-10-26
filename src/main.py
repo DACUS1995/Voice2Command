@@ -12,31 +12,43 @@ logging.basicConfig(level="DEBUG", format=log_format)
 logger = logging.getLogger()
 
 
-def start_service():
+def start_service(file_path = None):
 	logger.info("Starting Voice2Command service")
+	started_threads = []
 
-	listener = Listener("true_sample.wav")
+	listener = None
+	if file_path is not None:
+		listener = Listener("true_sample.wav")
+	else:
+		listener = Listener()
+
 	model_handler = ModelHandler()
 	processor = Processor(listener, model_handler)
 
 	run_event = threading.Event()
 	run_event.set()
-	thread = processor.run(run_event)
+
+	started_threads.append(processor.run(run_event))
+	started_threads.append(listener.run(run_event))
 
 	try:
 		while 1:
 			time.sleep(1)
-			print("Waiting")
 	except KeyboardInterrupt:
-		print("attempting to close threads.")
+		logger.info(f"Attempting to close {len(started_threads)} threads.")
 		run_event.clear()
-		thread.join()
-		print("threads successfully closed")
+		for thread in started_threads:
+			if thread.is_alive():
+				thread.join()
+		logger.info("Threads successfully closed")
 
 
 
 def main(args):
-	start_service()
+	if args.debug_mode_enabled:
+		start_service("true_sample.wav")
+	else:
+		start_service()
 	# threading.Event().wait()
 
 
@@ -45,6 +57,6 @@ if __name__ == "__main__":
 	# parser.add_argument("--method", type=str, default="orb")
 	# parser.add_argument("--directory", type=str, default="./images/noisy_images")
 	# parser.add_argument("--scale-percent", type=int, default=200)
-	# parser.add_argument("--draw-matches", default=False, action="store_true")
+	parser.add_argument("--debug-mode-enabled", default=True, action="store_true")
 	args = parser.parse_args()
 	main(args)

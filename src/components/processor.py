@@ -18,10 +18,11 @@ class Processor():
 				self.process_data(data)
 				self.listener.q.task_done()
 			time.sleep(0.5)
-			print(f"{self.__class__.__name__}")
+			logger.info(f"Queue is empty {self.listener.q.empty()}")
 
 	def process_data(self, data):
-		pass
+		logger.info("Processing data")
+		print(self.model_handler.classify(data))
 
 	def run(self, run_event):
 		thread = threading.Thread(target=self.start, args=(run_event,), daemon=True)

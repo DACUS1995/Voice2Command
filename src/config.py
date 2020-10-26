@@ -1,2 +1,3 @@
 class Config:
-	pass
+	RATE = 44100
+	RECORD_SECONDS = 5
