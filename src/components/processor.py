@@ -5,9 +5,10 @@ import time
 logger = logging.getLogger()
 
 class Processor():
-	def __init__(self, listener, model_handler):
+	def __init__(self, listener, model_handler, speech_handler):
 		self.listener = listener
 		self.model_handler = model_handler
+		self.speech_handler = speech_handler
 
 	def start(self, run_event):
 		logger.info(f"Starting {self.__class__.__name__}")
@@ -23,6 +24,10 @@ class Processor():
 	def process_data(self, data):
 		logger.info("Processing data")
 		print(self.model_handler.classify(data))
+
+
+		transcription = self.speech_handler.transcribe()
+		print(transcription)
 
 	def run(self, run_event):
 		thread = threading.Thread(target=self.start, args=(run_event,), daemon=True)

@@ -4,8 +4,9 @@ import threading
 import time
 
 from components.listener import Listener
-from components.model_handler import ModelHandler
+from components.wake_model_handler import ModelHandler
 from components.processor import Processor
+from components.speech_handler import SpeechHandler
 
 log_format = "%(asctime)s [%(module)s] : %(message)s"
 logging.basicConfig(level="DEBUG", format=log_format)
@@ -23,7 +24,8 @@ def start_service(file_path = None):
 		listener = Listener()
 
 	model_handler = ModelHandler()
-	processor = Processor(listener, model_handler)
+	speech_handler = SpeechHandler()
+	processor = Processor(listener, model_handler, speech_handler)
 
 	run_event = threading.Event()
 	run_event.set()
