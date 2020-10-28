@@ -11,7 +11,7 @@ from config import Config
 logger = logging.getLogger()
 
 CHUNK = 1024
-FORMAT = pyaudio.paInt16
+FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 5

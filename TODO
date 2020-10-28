@@ -1,3 +1,7 @@
 * Speech to text module
 * Find preconfigured command based on the text
 * Trigger Word
+
+torchaudio.transforms.FrequencyMasking()
+torchaudio.transforms.TimeMasking()
+nn.CTCLoss

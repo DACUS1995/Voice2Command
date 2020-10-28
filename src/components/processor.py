@@ -16,18 +16,24 @@ class Processor():
 		while run_event.is_set():
 			if not self.listener.q.empty():
 				data = self.listener.q.get()
-				self.process_data(data)
+				self.process_wake_data(data)
 				self.listener.q.task_done()
 			time.sleep(0.5)
 			logger.info(f"Queue is empty {self.listener.q.empty()}")
 
-	def process_data(self, data):
+	def process_wake_data(self, data):
 		logger.info("Processing data")
-		print(self.model_handler.classify(data))
+		wake_word_preds = self.model_handler.classify(data)
+		
+		if wake_word_preds[0][0] == 1:
+			print("Waking up!")
+			audio_data = self.speech_handler.capture_audio_command("speech.wav")
+			transcription = self.speech_handler.transcribe()
+			print(transcription)
 
-
-		transcription = self.speech_handler.transcribe()
-		print(transcription)
+	def process_transcription_data(transcription):
+		# TODO Choose the good command based on the transcription
+		pass
 
 	def run(self, run_event):
 		thread = threading.Thread(target=self.start, args=(run_event,), daemon=True)

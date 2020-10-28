@@ -1,3 +1,4 @@
 class Config:
 	RATE = 44100
 	RECORD_SECONDS = 5
+	COMMAND_TIMEOUT = 5
