@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+import numpy as np
 
 logger = logging.getLogger()
 
@@ -15,7 +16,8 @@ class Processor():
 
 		while run_event.is_set():
 			if not self.listener.q.empty():
-				data = self.listener.q.get()
+				frames = self.listener.q.get()
+				data = np.hstack(frames)
 				self.process_wake_data(data)
 				self.listener.q.task_done()
 			time.sleep(0.5)

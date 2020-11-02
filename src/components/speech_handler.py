@@ -6,7 +6,7 @@ from config import Config
 class SpeechHandler:
 	def __init__(self):
 		self.recognizer = sr.Recognizer()
-		self.mic = self.recognizer.Microphone()
+		self.mic = sr.Microphone()
 
 	def capture_audio_command(self, file_path = None):
 		audio_data = None

@@ -25,7 +25,11 @@ def start_service(file_path = None):
 
 	model_handler = ModelHandler()
 	speech_handler = SpeechHandler()
-	processor = Processor(listener, model_handler, speech_handler)
+	processor = Processor(
+		listener, 
+		model_handler, 
+		speech_handler
+	)
 
 	run_event = threading.Event()
 	run_event.set()
@@ -59,6 +63,6 @@ if __name__ == "__main__":
 	# parser.add_argument("--method", type=str, default="orb")
 	# parser.add_argument("--directory", type=str, default="./images/noisy_images")
 	# parser.add_argument("--scale-percent", type=int, default=200)
-	parser.add_argument("--debug-mode-enabled", default=True, action="store_true")
+	parser.add_argument("--debug-mode-enabled", default=False, action="store_true")
 	args = parser.parse_args()
 	main(args)
