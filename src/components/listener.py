@@ -12,7 +12,8 @@ from config import Config
 logger = logging.getLogger()
 
 CHUNK = 1024
-FORMAT = pyaudio.paFloat32
+# FORMAT = pyaudio.paFloat32
+FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 2
@@ -56,15 +57,26 @@ class Listener():
 		else:
 			while run_event.is_set():
 				frames = []
+				frames_save = []
+
 				for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
 					data = self.mic_stream.read(CHUNK)
 					# logger.info(f"Read {len(data)} bytes")
-					frames.append(np.fromstring(data, dtype=np.int32).astype(np.float32))
+					frames_save.append(data)
+					frames.append(np.fromstring(data, dtype=np.int16).astype(np.float32))
 
 				print("#############################")
 				self.q.put(frames)
+				self.save_recording(frames_save)
 				time.sleep(0.5)
 
+	def save_recording(self, frames):
+		waveFile = wave.open("new_recording.wav", 'wb')
+		waveFile.setnchannels(CHANNELS)
+		waveFile.setsampwidth(self.p.get_sample_size(FORMAT))
+		waveFile.setframerate(RATE)
+		waveFile.writeframes(b''.join(frames))
+		waveFile.close()
 			
 
 	def stop(self):
