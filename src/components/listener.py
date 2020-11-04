@@ -15,7 +15,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 5
+RECORD_SECONDS = 2
 
 
 class Listener():
@@ -58,7 +58,7 @@ class Listener():
 				frames = []
 				for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
 					data = self.mic_stream.read(CHUNK)
-					logger.info(f"Read {len(data)} bytes")
+					# logger.info(f"Read {len(data)} bytes")
 					frames.append(np.fromstring(data, dtype=np.int32).astype(np.float32))
 
 				print("#############################")

@@ -10,10 +10,9 @@ class SpeechHandler:
 
 	def capture_audio_command(self, file_path = None):
 		audio_data = None
-		if file is None:
-			with mic as source:
+		if file_path is None:
+			with self.mic as source:
 				self.recognizer.adjust_for_ambient_noise(source)
-				winsound.Beep(2500, 1000)
 				audio_data = self.recognizer.listen(source, timeout = Config.COMMAND_TIMEOUT)
 		else:
 			audio_handler = sr.AudioFile(file_path)

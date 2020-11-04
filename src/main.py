@@ -4,7 +4,7 @@ import threading
 import time
 
 from components.listener import Listener
-from components.wake_model_handler import ModelHandler
+from components.wake_model_handler import ModelHandler as WakeModelHandler
 from components.processor import Processor
 from components.speech_handler import SpeechHandler
 
@@ -23,11 +23,11 @@ def start_service(file_path = None):
 	else:
 		listener = Listener()
 
-	model_handler = ModelHandler()
+	wake_model_handler = WakeModelHandler()
 	speech_handler = SpeechHandler()
 	processor = Processor(
 		listener, 
-		model_handler, 
+		wake_model_handler, 
 		speech_handler
 	)
 
