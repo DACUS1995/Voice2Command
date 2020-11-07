@@ -5,6 +5,8 @@ import numpy as np
 import winsound
 import speech_recognition as sr
 
+import commands
+
 logger = logging.getLogger()
 
 class Processor():
@@ -37,13 +39,24 @@ class Processor():
 			try:
 				audio_data = self.speech_handler.capture_audio_command()
 				transcription = self.speech_handler.transcribe(audio_data)
+				self.process_transcription_data(transcription)
 				print(transcription)
 			except sr.WaitTimeoutError:
 				pass
 
 	def process_transcription_data(transcription):
-		# TODO Choose the good command based on the transcription
+		command = self.find_command_match(transcription)
+		self.run_command(command)
+
+	def find_command_match(self, transcription):
 		pass
+
+	def run_command(self, command):
+		if command["type"] == commands.SIMPLE_COMMAND_TYPE:
+			output = commands.SimpleCommand.run(command)
+			return output
+
+		raise Exception(f"Unhandled command type {command["type"]}")
 
 	def run(self, run_event):
 		thread = threading.Thread(target=self.start, args=(run_event,), daemon=True)
