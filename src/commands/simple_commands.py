@@ -4,7 +4,7 @@ import subprocess
 class CommandBase():
 	@staticmethod
 	def run(args):
-		pass
+		raise NotImplementedError
 
 
 class SimpleCommand(CommandBase):

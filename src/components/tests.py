@@ -7,6 +7,16 @@ logger = logging.getLogger()
 
 def test_matcher():
 	matcher = Matcher()
+	embedding = matcher.compute_embedding("Hello world")
+	similarity = matcher.compute_similarity(
+		embedding,
+		matcher.compute_embedding("Hello world")
+	)
+	
+	if round(similarity, 6) != 1:
+		raise Exception(f"Same sentences emebddings should have a similarity of 1, got {similarity}")
+	
+	logger.info("Matcher test passed")
 
 def run_all_tests():
 	test_matcher()

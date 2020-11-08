@@ -1,3 +1,5 @@
 # Voice2Command
 
-PocketSphinx source: https://cmusphinx.github.io/wiki/download/
+Resources:
+* PocketSphinx source: https://cmusphinx.github.io/wiki/download/
+* Sentence embeddings: https://github.com/UKPLab/sentence-transformers

@@ -6,6 +6,7 @@ import winsound
 import speech_recognition as sr
 
 import commands
+from matcher import Matcher
 
 logger = logging.getLogger()
 
@@ -14,6 +15,7 @@ class Processor():
 		self.listener = listener
 		self.wake_model_handler = wake_model_handler
 		self.speech_handler = speech_handler
+
 
 	def start(self, run_event):
 		logger.info(f"Starting {self.__class__.__name__}")
@@ -26,6 +28,7 @@ class Processor():
 				self.listener.q.task_done()
 			time.sleep(0.25)
 			logger.info(f"Queue is empty {self.listener.q.empty()}")
+
 
 	def process_wake_data(self, data):
 		logger.info("Processing data")
@@ -44,12 +47,15 @@ class Processor():
 			except sr.WaitTimeoutError:
 				pass
 
+
 	def process_transcription_data(transcription):
 		command = self.find_command_match(transcription)
 		self.run_command(command)
 
+
 	def find_command_match(self, transcription):
 		pass
+
 
 	def run_command(self, command):
 		if command["type"] == commands.SIMPLE_COMMAND_TYPE:
@@ -58,10 +64,12 @@ class Processor():
 
 		raise Exception(f"Unhandled command type {command["type"]}")
 
+
 	def run(self, run_event):
 		thread = threading.Thread(target=self.start, args=(run_event,), daemon=True)
 		thread.start()
 		return thread
+
 
 	def notify_waking(self):
 		winsound.Beep(

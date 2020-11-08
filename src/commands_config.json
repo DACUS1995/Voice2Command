@@ -1,8 +1,7 @@
 [
 	{
-		"Hello World": {
+			"sentence": "Hello World",
 			"command":"echo Hello World",
 			"type":"SimpleCommand"
-		}
 	}
 ]
