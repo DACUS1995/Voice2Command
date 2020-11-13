@@ -1,5 +1,1 @@
-* Find preconfigured command based on the text
-
-torchaudio.transforms.FrequencyMasking()
-torchaudio.transforms.TimeMasking()
 nn.CTCLoss
