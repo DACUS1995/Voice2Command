@@ -6,7 +6,7 @@ import winsound
 import speech_recognition as sr
 
 import commands
-from matcher import Matcher
+from .matcher import Matcher
 
 logger = logging.getLogger()
 
@@ -15,12 +15,21 @@ class Processor():
 		self.listener = listener
 		self.wake_model_handler = wake_model_handler
 		self.speech_handler = speech_handler
+		self._skip_next = False
 
 
 	def start(self, run_event):
 		logger.info(f"Starting {self.__class__.__name__}")
 
 		while run_event.is_set():
+			if self._skip_next:
+				self.listener.q.get()
+				self.listener.q.task_done()
+				self._skip_next = False
+				logger.info("Skipping the next wake frames")
+				time.sleep(3)
+				continue
+
 			if not self.listener.q.empty():
 				frames = self.listener.q.get()
 				data = np.hstack(frames)
@@ -62,7 +71,7 @@ class Processor():
 			output = commands.SimpleCommand.run(command)
 			return output
 
-		raise Exception(f"Unhandled command type {command["type"]}")
+		raise Exception(f"Unhandled command type {command['type']}")
 
 
 	def run(self, run_event):
