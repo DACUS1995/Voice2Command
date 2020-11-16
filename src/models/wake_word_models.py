@@ -60,7 +60,7 @@ class WakeWordCNNModel_3sec(nn.Module):
 		self.conv21 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=4, padding=4)
 		self.conv22 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=4, padding=4)
 
-		self.l1 = nn.Linear(11904, 256)
+		self.l1 = nn.Linear(7680, 256)
 		self.l2 = nn.Linear(256, output_size)
 
 	def forward(self, input):
