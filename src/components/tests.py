@@ -1,4 +1,4 @@
-from matcher import Matcher
+from .matcher import Matcher
 import logging
 
 log_format = "%(asctime)s [%(module)s] : %(message)s"

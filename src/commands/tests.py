@@ -1,4 +1,4 @@
-from simple_commands import SimpleCommand
+from .simple_commands import SimpleCommand
 import logging
 
 log_format = "%(asctime)s [%(module)s] : %(message)s"

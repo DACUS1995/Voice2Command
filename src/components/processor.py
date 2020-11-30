@@ -15,6 +15,8 @@ class Processor():
 		self.listener = listener
 		self.wake_model_handler = wake_model_handler
 		self.speech_handler = speech_handler
+		self.matcher = Matcher()
+
 		self._skip_next = False
 
 
@@ -46,6 +48,7 @@ class Processor():
 		print(wake_word_preds)
 		if wake_word_preds[0][0] == 1:
 			print("Waking up!")
+			self._skip_next = True
 			self.notify_waking()
 
 			try:
@@ -63,7 +66,8 @@ class Processor():
 
 
 	def find_command_match(self, transcription):
-		pass
+		command = self.matcher.find_match(transcription)
+		return command
 
 
 	def run_command(self, command):

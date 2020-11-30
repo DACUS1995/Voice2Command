@@ -16,7 +16,7 @@ class Matcher():
 
 
 
-	def load_commands_config(self, path="../commands_config.json"):
+	def load_commands_config(self, path="commands_config.json"):
 		with open(path) as json_file:
 			commands_config = json.load(json_file)
 			return commands_config
