@@ -1,0 +1,7 @@
+language: python
+python:
+  - "3.8"
+install:
+  - conda install -r requirements.txt
+script:
+  - python src/run_tests.py
