@@ -1,7 +1,9 @@
 import torch
 import numpy as np
 import librosa
+import librosa.display
 import logging
+import matplotlib.pyplot as plt
 
 from models import wake_word_models
 from config import Config
@@ -37,6 +39,10 @@ class ModelHandler():
 
 		S = librosa.feature.melspectrogram(y=data, sr=Config.RATE)
 		S_db = librosa.core.power_to_db(S)
+
+		fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True)
+		librosa.display.specshow(S_db, y_axis='log', sr=44100, x_axis='time', ax=ax)
+
 		data = torch.from_numpy(S_db).unsqueeze(dim=0).float()
 
 		return data

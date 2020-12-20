@@ -63,7 +63,8 @@ class Listener():
 					data = self.mic_stream.read(CHUNK)
 					# logger.info(f"Read {len(data)} bytes")
 					frames_save.append(data)
-					frames.append(np.fromstring(data, dtype=np.int16).astype(np.float32))
+					converted_data = np.fromstring(data, dtype=np.int16).astype(np.float32) / 32768
+					frames.append(converted_data)
 
 				print("#############################")
 				self.q.put(frames)
