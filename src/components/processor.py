@@ -45,7 +45,7 @@ class Processor():
 		logger.info("Processing data")
 		wake_word_preds = self.wake_model_handler.classify(data)
 		
-		print(wake_word_preds)
+		print(np.round(wake_word_preds[0][0], 3))
 		if wake_word_preds[0][0] == 1:
 			print("Waking up!")
 			self._skip_next = True
