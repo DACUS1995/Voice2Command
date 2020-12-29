@@ -13,7 +13,7 @@ logger = logging.getLogger()
 class ModelHandler():
 	def __init__(self):
 		self.model = wake_word_models.WakeWordCNNModel_3sec_2(output_size=1)
-		self.model.load_state_dict(torch.load("../models/WakeWordCNNModel_3sec_2.pt"))
+		self.model.load_state_dict(torch.load("../models/WakeWordCNNModel_3sec.pt"))
 		self.model.eval()
 		logger.info("Model loaded")
 
