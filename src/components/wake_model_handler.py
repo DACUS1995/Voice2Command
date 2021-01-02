@@ -37,7 +37,7 @@ class ModelHandler():
 		else:
 			data = data[:sample_size]
 
-		S = librosa.feature.melspectrogram(y=data, sr=Config.RATE)
+		S = librosa.feature.melspectrogram(y=data, sr=Config.RATE, hop_length=128)
 		S_db = librosa.core.power_to_db(S)
 
 		fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True)
