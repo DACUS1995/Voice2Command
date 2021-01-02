@@ -123,10 +123,11 @@ class WakeWordCNNModel_3sec_2(nn.Module):
 			nn.LeakyReLU(0.2, inplace=True)
 		)
 
-		self.dropout = nn.Dropout()
+		self.dropout1 = nn.Dropout(0.6)
+		self.dropout2 = nn.Dropout(0.5)
 
-		# self.l1 = nn.Linear(7680, 256)
-		self.l2 = nn.Linear(7680, output_size)
+		self.l1 = nn.Linear(6528, 256)
+		self.l2 = nn.Linear(256, output_size)
 
 	def forward(self, input):
 		out = self.conv_block1(input)
@@ -134,10 +135,11 @@ class WakeWordCNNModel_3sec_2(nn.Module):
 
 		# print(out.shape)
 		out = out.view(out.size(0), -1)
-		out = self.dropout(out)
+		out = self.dropout1(out)
 
-		# out = self.l1(out)
-		# out = F.leaky_relu(out)
+		out = self.l1(out)
+		out = F.leaky_relu(out)
+		out = self.dropout2(out)
 
 		out = self.l2(out)
 		out = F.sigmoid(out)
