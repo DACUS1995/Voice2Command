@@ -100,7 +100,7 @@ class WakeWordCNNModel_3sec_2(nn.Module):
 		self.training = training
 
 		self.conv_block1 = nn.Sequential(
-			nn.Conv2d(in_channels=1, out_channels=16, kernel_size=4, padding=4),
+			nn.Conv2d(in_channels=1, out_channels=16, kernel_size=2, padding=4),
 			nn.MaxPool2d(kernel_size=2),
 			nn.BatchNorm2d(16),
 			nn.LeakyReLU(0.2, inplace=True),
@@ -118,7 +118,7 @@ class WakeWordCNNModel_3sec_2(nn.Module):
 			nn.LeakyReLU(0.2, inplace=True),
 
 			nn.Conv2d(in_channels=32, out_channels=32, kernel_size=4, padding=4),
-			nn.MaxPool2d(kernel_size=2),
+			nn.MaxPool2d(kernel_size=4),
 			nn.BatchNorm2d(32),
 			nn.LeakyReLU(0.2, inplace=True)
 		)

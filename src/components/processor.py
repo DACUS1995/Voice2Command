@@ -7,6 +7,8 @@ import speech_recognition as sr
 
 import commands
 from .matcher import Matcher
+from config import Config
+
 
 logger = logging.getLogger()
 
@@ -46,7 +48,7 @@ class Processor():
 		wake_word_preds = self.wake_model_handler.classify(data)
 		
 		print(np.round(wake_word_preds[0][0], 3))
-		if wake_word_preds[0][0] == 1:
+		if wake_word_preds[0][0] > Config.WAKE_THRESHOLD:
 			print("Waking up!")
 			self._skip_next = True
 			self.notify_waking()
@@ -58,11 +60,14 @@ class Processor():
 				print(transcription)
 			except sr.WaitTimeoutError:
 				pass
+			except sr.UnknownValueError:
+				print("Problem with transcription")
 
 
-	def process_transcription_data(transcription):
+	def process_transcription_data(self, transcription):
 		command = self.find_command_match(transcription)
-		self.run_command(command)
+		output = self.run_command(command)
+		print("Command output: " + output)
 
 
 	def find_command_match(self, transcription):
