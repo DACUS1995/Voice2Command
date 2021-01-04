@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data.dataset import Dataset
-from torch.utils.data import DataLoader
 from torchaudio import transforms
 
 torch.manual_seed(0)
